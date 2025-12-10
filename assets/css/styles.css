@@ -643,9 +643,43 @@ section {
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
+/* Ensure logo has space and doesn't overlap */
+#navbar .absolute.left-1\/2 {
+    z-index: 1;
+    pointer-events: none;
+}
+
+#navbar .desktop-nav {
+    position: relative;
+    z-index: 2;
+    min-width: 0;
+    flex: 0 0 auto;
+}
+
+/* Prevent overlap with logo - ensure proper spacing */
+#navbar .flex.items-center.justify-between {
+    gap: 1rem;
+}
+
+#navbar .desktop-nav {
+    flex-shrink: 0;
+}
+
+/* Right menu items - ensure they don't overlap logo */
+#navbar .desktop-nav:last-of-type {
+    margin-left: auto;
+    padding-left: 1rem;
+}
+
+/* Left menu items */
+#navbar .desktop-nav:first-of-type {
+    margin-right: auto;
+    padding-right: 1rem;
+}
+
 .nav-link {
     font-family: 'Geist Mono', monospace;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 400;
     color: white;
     text-decoration: none;
@@ -653,6 +687,7 @@ section {
     transition: all 0.2s ease;
     padding: 8px 0;
     cursor: pointer;
+    white-space: nowrap;
 }
 
 .nav-link:hover {
@@ -666,15 +701,17 @@ section {
 /* CA Copy Button in Navigation */
 #ca-copy-btn {
     font-family: 'Geist Mono', monospace;
-    font-size: 16px;
+    font-size: 13px;
     font-weight: 400;
     color: white;
     border: 1px solid rgba(147, 51, 234, 0.6);
-    padding: 8px 16px;
+    padding: 6px 12px;
     border-radius: 6px;
     background: transparent;
     cursor: pointer;
     transition: all 0.2s ease;
+    white-space: nowrap;
+    flex-shrink: 0;
 }
 
 #ca-copy-btn:hover {
