@@ -663,6 +663,25 @@ section {
     animation: none;
 }
 
+/* CA Copy Button in Navigation */
+#ca-copy-btn {
+    font-family: 'Geist Mono', monospace;
+    font-size: 16px;
+    font-weight: 400;
+    color: white;
+    border: 1px solid rgba(147, 51, 234, 0.6);
+    padding: 8px 16px;
+    border-radius: 6px;
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+#ca-copy-btn:hover {
+    border-color: rgba(147, 51, 234, 0.8);
+    background: rgba(147, 51, 234, 0.2);
+}
+
 /* Newsletter Section */
 
 .newsletter-stars {

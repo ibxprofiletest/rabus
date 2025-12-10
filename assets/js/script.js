@@ -386,6 +386,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initScrambleLinks();
     initScrambleButtons();
     initMovingBorder();
+    initCACopyButton();
 });
 
 // Newsletter Form Submission
@@ -575,6 +576,7 @@ document.addEventListener('DOMContentLoaded', () => {
     createNewsletterStars();
     initNewsletterForm();
     initMovingBorder();
+    initCACopyButton();
 });
 
 // Also ensure scroll position is reset on page load/refresh
@@ -634,4 +636,98 @@ function initMovingBorder() {
 
         requestAnimationFrame(animate);
     }
+}
+
+// CA Copy Button Functionality
+function initCACopyButton() {
+    const textToCopy = 'CA: Coming Soon';
+    
+    // Function to close mobile menu
+    function closeMobileMenu() {
+        const mobileMenu = document.getElementById('mobile-menu');
+        const line1 = document.getElementById('line1');
+        const line2 = document.getElementById('line2');
+        const line3 = document.getElementById('line3');
+        
+        if (mobileMenu) {
+            mobileMenu.style.display = 'none';
+            if (line1 && line2 && line3) {
+                line1.style.transform = 'none';
+                line2.style.opacity = '1';
+                line3.style.transform = 'none';
+            }
+        }
+    }
+    
+    // Function to handle copy for a button
+    function setupCopyButton(button, isMobile = false) {
+        if (!button) return;
+        
+        const originalText = button.textContent.trim();
+
+        button.addEventListener('click', async () => {
+            // Close mobile menu if this is the mobile button
+            if (isMobile) {
+                closeMobileMenu();
+            }
+            
+            try {
+                // Use the Clipboard API to copy text
+                await navigator.clipboard.writeText(textToCopy);
+                
+                // Visual feedback - change button text
+                button.textContent = 'Copied!';
+                
+                // Change button style to show success
+                button.style.borderColor = '#22c55e';
+                button.style.backgroundColor = 'rgba(34, 197, 94, 0.2)';
+                
+                // Reset button after 2 seconds
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.style.borderColor = '';
+                    button.style.backgroundColor = '';
+                }, 2000);
+            } catch (err) {
+                // Fallback for older browsers
+                const textArea = document.createElement('textarea');
+                textArea.value = textToCopy;
+                textArea.style.position = 'fixed';
+                textArea.style.left = '-999999px';
+                document.body.appendChild(textArea);
+                textArea.select();
+                
+                try {
+                    document.execCommand('copy');
+                    // Visual feedback
+                    button.textContent = 'Copied!';
+                    button.style.borderColor = '#22c55e';
+                    button.style.backgroundColor = 'rgba(34, 197, 94, 0.2)';
+                    
+                    setTimeout(() => {
+                        button.textContent = originalText;
+                        button.style.borderColor = '';
+                        button.style.backgroundColor = '';
+                    }, 2000);
+                } catch (fallbackErr) {
+                    console.error('Failed to copy text:', fallbackErr);
+                    // Show error feedback
+                    button.textContent = 'Error!';
+                    setTimeout(() => {
+                        button.textContent = originalText;
+                    }, 2000);
+                }
+                
+                document.body.removeChild(textArea);
+            }
+        });
+    }
+    
+    // Setup desktop button
+    const caCopyBtn = document.getElementById('ca-copy-btn');
+    setupCopyButton(caCopyBtn, false);
+    
+    // Setup mobile button
+    const caCopyBtnMobile = document.getElementById('ca-copy-btn-mobile');
+    setupCopyButton(caCopyBtnMobile, true);
 }
